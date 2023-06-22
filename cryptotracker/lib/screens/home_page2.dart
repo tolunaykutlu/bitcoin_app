@@ -64,8 +64,8 @@ class __HomePage2StateState extends ConsumerState<MyHomePage> {
                     space(),
                     Expanded(
                         flex: 3,
-                        child: red.when(
-                          data: (coin) {
+                        child: red.when(//futureproviderin sağladığı bir güzellik 
+                          data: (coin) {// eğer data geldiyse bunları yap
                            
                             return ListView.builder(
                                 itemCount: itemCount,
@@ -90,9 +90,9 @@ class __HomePage2StateState extends ConsumerState<MyHomePage> {
                                     ],
                                   );
                                 });
-                          },
+                          },// gelmediyse bunları 
                           error: (error, stackTrace) => const Text("gelmöedi"),
-                          loading: () => const CircularProgressIndicator(),
+                          loading: () => const CircularProgressIndicator(),// gelirken bunu
                         )) 
                   ],
                 ),
