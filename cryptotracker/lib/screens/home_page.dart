@@ -1,18 +1,13 @@
-
-
-
 import 'package:cryptotracker/model/bitcoin_model.dart';
+
 import 'package:cryptotracker/services/get_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-
-final response = FutureProvider<List<BitcoinMockModel>>((ref) async {
+final response = FutureProvider<BitcoinMockModel>((ref) async {
   final apiService = ref.read(serviceProvider);
   return apiService.dataService();
 });
-
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
@@ -24,18 +19,9 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class __HomePage2StateState extends ConsumerState<MyHomePage> {
   @override
-  void initState() {
-    ref.read(serviceProvider).dataService();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     var red = ref.watch(response);
-    var itemCount = ref.watch(serviceProvider).data.length;
-    
-    
+    var itemCount = ref.watch(serviceProvider).datas.length;
 
     return Scaffold(
       body: SafeArea(
@@ -64,9 +50,11 @@ class __HomePage2StateState extends ConsumerState<MyHomePage> {
                     space(),
                     Expanded(
                         flex: 3,
-                        child: red.when(//futureproviderin sağladığı bir güzellik 
-                          data: (coin) {// eğer data geldiyse bunları yap
-                           
+                        child: red.when(
+                          //futureproviderin sağladığı bir güzellik
+                          data: (coin) {
+                            // eğer data geldiyse bunları yap
+
                             return ListView.builder(
                                 itemCount: itemCount,
                                 itemBuilder: (context, index) {
@@ -80,20 +68,22 @@ class __HomePage2StateState extends ConsumerState<MyHomePage> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10))),
                                           child: ListTile(
-                                              leading: Text(coin[index].id),
-                                              trailing: Image.network(coin[index].image.toString()),
-                                              subtitle: Text(coin[index].name),
-                                              title: Text(coin[index].price)),
+                                              leading: Text(coin.id),
+                                              trailing: Image.network(
+                                                  coin.image.toString()),
+                                              subtitle: Text(coin.name),
+                                              title: Text(coin.price)),
                                         ),
                                       ),
                                       space()
                                     ],
                                   );
                                 });
-                          },// gelmediyse bunları 
+                          }, // gelmediyse bunları
                           error: (error, stackTrace) => const Text("gelmöedi"),
-                          loading: () => const CircularProgressIndicator(),// gelirken bunu
-                        )) 
+                          loading: () =>
+                              const CircularProgressIndicator(), // gelirken bunu
+                        ))
                   ],
                 ),
               )
